@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.1.0",
+  "generated_at": "2026-08-27T03:41:02",
+  "source_files": [
+    "revenue_model",
+    "cost_structure",
+    "profit_analysis",
+    "cash_flow",
+    "pricing_strategy",
+    "roi",
+    "unit_economics"
+  ],
+  "total_nodes": 8,
+  "by_category": {
+    "revenue_model": 8
+  },
+  "nodes": [
+    "revenue_model__订阅收入",
+    "revenue_model__交易收入",
+    "revenue_model__平台收入",
+    "revenue_model__广告收入",
+    "revenue_model__收入公式",
+    "revenue_model__收入模型选择",
+    "revenue_model__收入优化",
+    "revenue_model__收入红旗"
+  ]
+}

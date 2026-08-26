@@ -1,0 +1,201 @@
+[
+  {
+    "id": "revenue_model__订阅收入",
+    "name": "订阅收入",
+    "level": "入门",
+    "difficulty": 1,
+    "description": "按周期(年/月/季)持续收费。锁定现金流、提升 LTV,但需要持续交付价值防流失。",
+    "tags": [
+      "SaaS",
+      "视频流媒体",
+      "在线教育",
+      "会员制零售(山姆/Costco)",
+      "MRR / ARR",
+      "续费率(NRR)",
+      "Churn"
+    ],
+    "formulas": [],
+    "prerequisites": [
+      "适用行业",
+      "关键指标"
+    ],
+    "source_file": "revenue_model",
+    "cases": [],
+    "calculators": [],
+    "tools": [],
+    "red_flags": [],
+    "applications": [],
+    "explanation": {}
+  },
+  {
+    "id": "revenue_model__交易收入",
+    "name": "交易收入",
+    "level": "入门",
+    "difficulty": 1,
+    "description": "按次/按件收取。简单直接、毛利即收入,需要规模或高客单支撑利润。",
+    "tags": [
+      "电商零售",
+      "餐饮",
+      "硬件销售",
+      "GMV",
+      "客单价",
+      "复购率"
+    ],
+    "formulas": [],
+    "prerequisites": [
+      "适用行业",
+      "关键指标"
+    ],
+    "source_file": "revenue_model",
+    "cases": [],
+    "calculators": [],
+    "tools": [],
+    "red_flags": [],
+    "applications": [],
+    "explanation": {}
+  },
+  {
+    "id": "revenue_model__平台收入",
+    "name": "平台收入",
+    "level": "入门",
+    "difficulty": 1,
+    "description": "撮合供需双方抽佣。网络效应是核心壁垒,需要双边密度。",
+    "tags": [
+      "外卖(美团/饿了么)",
+      "出行(滴滴)",
+      "电商平台(淘宝/拼多多)"
+    ],
+    "formulas": [
+      "take_rate = GMV × commission_rate\nplatform_revenue = take_rate - subsidy - payment_fee"
+    ],
+    "prerequisites": [
+      "适用行业",
+      "抽佣模型"
+    ],
+    "source_file": "revenue_model",
+    "cases": [],
+    "calculators": [],
+    "tools": [],
+    "red_flags": [],
+    "applications": [],
+    "explanation": {}
+  },
+  {
+    "id": "revenue_model__广告收入",
+    "name": "广告收入",
+    "level": "入门",
+    "difficulty": 1,
+    "description": "出售流量/曝光/转化。依赖用户规模与精准度,数据资产是护城河。",
+    "tags": [
+      "搜索(百度/Google)",
+      "社媒(微博/小红书)",
+      "信息流(抖音)",
+      "eCPM",
+      "CTR",
+      "填充率"
+    ],
+    "formulas": [],
+    "prerequisites": [
+      "适用行业",
+      "关键指标"
+    ],
+    "source_file": "revenue_model",
+    "cases": [],
+    "calculators": [],
+    "tools": [],
+    "red_flags": [],
+    "applications": [],
+    "explanation": {}
+  },
+  {
+    "id": "revenue_model__收入公式",
+    "name": "收入公式",
+    "level": "入门",
+    "difficulty": 1,
+    "description": "### 订阅收入公式",
+    "tags": [],
+    "formulas": [
+      "MRR = subscribers × ARPU\nARR = MRR × 12\nNRR = (starting_MRR + expansion - churn - contraction) / starting_MRR"
+    ],
+    "prerequisites": [
+      "订阅收入公式"
+    ],
+    "source_file": "revenue_model",
+    "cases": [],
+    "calculators": [],
+    "tools": [],
+    "red_flags": [],
+    "applications": [],
+    "explanation": {}
+  },
+  {
+    "id": "revenue_model__收入模型选择",
+    "name": "收入模型选择",
+    "level": "入门",
+    "difficulty": 1,
+    "description": "不同生意阶段匹配不同模型,小生意首选交易,平台期押注订阅或平台。",
+    "tags": [
+      "现金流稳 → 订阅",
+      "流量大 → 广告",
+      "双边网络 → 平台",
+      "实物交付 → 交易"
+    ],
+    "formulas": [],
+    "prerequisites": [
+      "决策树"
+    ],
+    "source_file": "revenue_model",
+    "cases": [],
+    "calculators": [],
+    "tools": [],
+    "red_flags": [],
+    "applications": [],
+    "explanation": {}
+  },
+  {
+    "id": "revenue_model__收入优化",
+    "name": "收入优化",
+    "level": "入门",
+    "difficulty": 1,
+    "description": "从模型选择到定价到漏斗到留存,4 个杠杆联动调优。",
+    "tags": [
+      "模型迁移(交易 → 订阅)",
+      "价格段拓展",
+      "交叉销售",
+      "复购激励"
+    ],
+    "formulas": [],
+    "prerequisites": [
+      "杠杆清单"
+    ],
+    "source_file": "revenue_model",
+    "cases": [],
+    "calculators": [],
+    "tools": [],
+    "red_flags": [],
+    "applications": [],
+    "explanation": {}
+  },
+  {
+    "id": "revenue_model__收入红旗",
+    "name": "收入红旗",
+    "level": "入门",
+    "difficulty": 1,
+    "description": "- 续费率 < 80%",
+    "tags": [
+      "续费率 < 80%",
+      "CAC > LTV",
+      "ARPU 连降",
+      "退款率 > 5%"
+    ],
+    "formulas": [],
+    "prerequisites": [],
+    "source_file": "revenue_model",
+    "cases": [],
+    "calculators": [],
+    "tools": [],
+    "red_flags": [],
+    "applications": [],
+    "explanation": {}
+  }
+]
