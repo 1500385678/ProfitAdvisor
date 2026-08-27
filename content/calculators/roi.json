@@ -1,0 +1,47 @@
+{
+  "id": "roi",
+  "name": "投资回报率 ROI",
+  "category": "投资",
+  "description": "(收益 - 成本) / 成本,衡量一笔投资或一个项目的回报效率。",
+  "difficulty": 1,
+  "tags": [
+    "ROI",
+    "投资回报",
+    "效率"
+  ],
+  "inputs": [
+    {
+      "name": "gain",
+      "label": "总收益",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    },
+    {
+      "name": "cost",
+      "label": "总成本",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "roi",
+      "label": "投资回报率",
+      "unit": "%"
+    },
+    {
+      "name": "net_gain",
+      "label": "净收益",
+      "unit": "元"
+    }
+  ],
+  "formula": "roi = (gain - cost) / cost * 100",
+  "interpretation": "ROI > 100% 即回本 2 倍;数字营销 ROI > 300% 才算合格,线下拓客 ROI > 200% 优秀。",
+  "knowledge_ids": [
+    "roi__投资回报"
+  ],
+  "cases": [],
+  "examples": []
+}

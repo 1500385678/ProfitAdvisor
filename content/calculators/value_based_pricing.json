@@ -1,0 +1,49 @@
+{
+  "id": "value_based_pricing",
+  "name": "价值定价锚点",
+  "category": "定价",
+  "description": "基于客户感知价值反推售价:价值 = 客户获得的收益 × 客户认知度,适合高客单 B2B/SaaS。",
+  "difficulty": 4,
+  "tags": [
+    "价值定价",
+    "感知价值",
+    "B2B",
+    "SaaS"
+  ],
+  "inputs": [
+    {
+      "name": "customer_value",
+      "label": "客户感知价值",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    },
+    {
+      "name": "value_capture_rate",
+      "label": "价值捕获率",
+      "type": "number",
+      "unit": "%",
+      "default": 20,
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "anchor_price",
+      "label": "价值锚点价",
+      "unit": "元"
+    },
+    {
+      "name": "min_price",
+      "label": "保底价",
+      "unit": "元"
+    }
+  ],
+  "formula": "anchor = customer_value * value_capture_rate / 100",
+  "interpretation": "价值捕获率 10-30% 是 B2B SaaS 行业常见区间;低于 10% 说明价值未被认可。",
+  "knowledge_ids": [
+    "pricing_strategy__价值定价"
+  ],
+  "cases": [],
+  "examples": []
+}

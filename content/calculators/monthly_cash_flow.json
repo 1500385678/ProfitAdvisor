@@ -1,0 +1,68 @@
+{
+  "id": "monthly_cash_flow",
+  "name": "月度现金流预测",
+  "category": "现金流",
+  "description": "基于期初余额 + 月度预计收入/支出,生成 12 月现金流轨迹,识别缺口月份。",
+  "difficulty": 3,
+  "tags": [
+    "现金流",
+    "预测",
+    "营运资金",
+    "月度"
+  ],
+  "inputs": [
+    {
+      "name": "starting_balance",
+      "label": "期初现金",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    },
+    {
+      "name": "monthly_income",
+      "label": "月均收入",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    },
+    {
+      "name": "monthly_expense",
+      "label": "月均支出",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    },
+    {
+      "name": "months",
+      "label": "预测月数",
+      "type": "number",
+      "unit": "月",
+      "default": 12,
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "ending_balance",
+      "label": "期末余额",
+      "unit": "元"
+    },
+    {
+      "name": "lowest_month",
+      "label": "最低点月份",
+      "unit": "月"
+    },
+    {
+      "name": "is_negative",
+      "label": "是否穿底",
+      "unit": "bool"
+    }
+  ],
+  "formula": "ending = starting + (income - expense) * months; lowest = min(monthly_running)",
+  "interpretation": "若 ending < 0 或中途穿底,需提前 3 个月融资/压缩支出。",
+  "knowledge_ids": [
+    "cash_flow__营运现金流"
+  ],
+  "cases": [],
+  "examples": []
+}

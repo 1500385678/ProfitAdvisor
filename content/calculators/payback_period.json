@@ -1,0 +1,47 @@
+{
+  "id": "payback_period",
+  "name": "投资回收期",
+  "category": "投资",
+  "description": "用累计净现金流测算回本所需月数,直观判断投资风险窗口。",
+  "difficulty": 2,
+  "tags": [
+    "回收期",
+    "投资风险",
+    "现金流"
+  ],
+  "inputs": [
+    {
+      "name": "initial_investment",
+      "label": "初始投资",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    },
+    {
+      "name": "monthly_net_cash",
+      "label": "月均净现金",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "months",
+      "label": "回收期",
+      "unit": "月"
+    },
+    {
+      "name": "is_safe",
+      "label": "是否 < 12 月",
+      "unit": "bool"
+    }
+  ],
+  "formula": "months = initial_investment / monthly_net_cash",
+  "interpretation": "回收期 ≤ 12 个月算优秀;≤ 24 个月可接受;> 36 个月有较大不确定性。",
+  "knowledge_ids": [
+    "roi__回收期"
+  ],
+  "cases": [],
+  "examples": []
+}

@@ -1,0 +1,47 @@
+{
+  "id": "contribution_margin",
+  "name": "边际贡献率",
+  "category": "利润",
+  "description": "单位售价 - 单位变动成本 = 单位边际贡献;再除以单价即边际贡献率,反映每 1 元收入能贡献多少毛利。",
+  "difficulty": 2,
+  "tags": [
+    "边际贡献",
+    "毛利率",
+    "变动成本"
+  ],
+  "inputs": [
+    {
+      "name": "price",
+      "label": "单价",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    },
+    {
+      "name": "variable_cost",
+      "label": "单位变动成本",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "contribution",
+      "label": "单位边际贡献",
+      "unit": "元"
+    },
+    {
+      "name": "contribution_rate",
+      "label": "边际贡献率",
+      "unit": "%"
+    }
+  ],
+  "formula": "contribution = price - variable_cost; rate = contribution / price",
+  "interpretation": "边际贡献率 > 30% 通常算健康;过低(<20%)说明成本结构脆弱,涨价或降本压力大。",
+  "knowledge_ids": [
+    "profit_analysis__边际贡献"
+  ],
+  "cases": [],
+  "examples": []
+}

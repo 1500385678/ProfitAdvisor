@@ -1,0 +1,75 @@
+{
+  "id": "break_even_point",
+  "name": "盈亏平衡点",
+  "category": "利润",
+  "description": "计算覆盖固定成本所需的最小销量/销售额,常用于产品定价和销量目标拆解。",
+  "difficulty": 2,
+  "tags": [
+    "盈亏平衡",
+    "固定成本",
+    "变动成本",
+    "保本"
+  ],
+  "inputs": [
+    {
+      "name": "fixed_cost",
+      "label": "固定成本",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    },
+    {
+      "name": "price",
+      "label": "单价",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    },
+    {
+      "name": "variable_cost",
+      "label": "单位变动成本",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "units",
+      "label": "保本销量",
+      "unit": "件"
+    },
+    {
+      "name": "revenue",
+      "label": "保本销售额",
+      "unit": "元"
+    },
+    {
+      "name": "contribution_margin",
+      "label": "单位边际贡献",
+      "unit": "元"
+    }
+  ],
+  "formula": "units = fixed_cost / (price - variable_cost); revenue = units * price",
+  "interpretation": "销量需 ≥ units 才能盈利;若当前销量 < units,要么提价要么压变动成本。",
+  "knowledge_ids": [
+    "revenue_model__收入公式",
+    "profit_analysis__盈亏平衡"
+  ],
+  "cases": [],
+  "examples": [
+    {
+      "inputs": {
+        "fixed_cost": 50000,
+        "price": 100,
+        "variable_cost": 40
+      },
+      "outputs": {
+        "units": 833.33,
+        "revenue": 83333.33,
+        "contribution_margin": 60
+      },
+      "note": "餐饮店固定成本 5 万,客单 100,食材 40 → 每天 28 单保本。"
+    }
+  ]
+}

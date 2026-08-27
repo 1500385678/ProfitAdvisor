@@ -1,0 +1,55 @@
+{
+  "id": "working_capital",
+  "name": "营运资金需求",
+  "category": "现金流",
+  "description": "计算维持日常经营所需的最低现金 = 应收账款 + 存货 - 应付账款。",
+  "difficulty": 3,
+  "tags": [
+    "营运资金",
+    "应收",
+    "应付",
+    "存货"
+  ],
+  "inputs": [
+    {
+      "name": "accounts_receivable",
+      "label": "应收账款",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    },
+    {
+      "name": "inventory",
+      "label": "存货",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    },
+    {
+      "name": "accounts_payable",
+      "label": "应付账款",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "working_capital",
+      "label": "营运资金",
+      "unit": "元"
+    },
+    {
+      "name": "days_cover",
+      "label": "覆盖天数",
+      "unit": "天"
+    }
+  ],
+  "formula": "wc = ar + inv - ap",
+  "interpretation": "营运资金为正且 ≥ 3 个月支出的公司健康;为负说明靠应付账款/股东垫资在跑。",
+  "knowledge_ids": [
+    "cash_flow__营运资金"
+  ],
+  "cases": [],
+  "examples": []
+}

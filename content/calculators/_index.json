@@ -1,0 +1,75 @@
+{
+  "schema_version": "0.1.0",
+  "generated_at": "2026-08-28T03:41:48",
+  "total": 10,
+  "by_category": {
+    "利润": 2,
+    "现金流": 2,
+    "定价": 2,
+    "投资": 2,
+    "单位经济": 1,
+    "增长": 1
+  },
+  "calculators": [
+    {
+      "id": "break_even_point",
+      "name": "盈亏平衡点",
+      "category": "利润",
+      "difficulty": 2
+    },
+    {
+      "id": "contribution_margin",
+      "name": "边际贡献率",
+      "category": "利润",
+      "difficulty": 2
+    },
+    {
+      "id": "monthly_cash_flow",
+      "name": "月度现金流预测",
+      "category": "现金流",
+      "difficulty": 3
+    },
+    {
+      "id": "working_capital",
+      "name": "营运资金需求",
+      "category": "现金流",
+      "difficulty": 3
+    },
+    {
+      "id": "cost_plus_pricing",
+      "name": "成本加成定价",
+      "category": "定价",
+      "difficulty": 1
+    },
+    {
+      "id": "value_based_pricing",
+      "name": "价值定价锚点",
+      "category": "定价",
+      "difficulty": 4
+    },
+    {
+      "id": "roi",
+      "name": "投资回报率 ROI",
+      "category": "投资",
+      "difficulty": 1
+    },
+    {
+      "id": "payback_period",
+      "name": "投资回收期",
+      "category": "投资",
+      "difficulty": 2
+    },
+    {
+      "id": "ltv_cac",
+      "name": "LTV / CAC 比",
+      "category": "单位经济",
+      "difficulty": 3
+    },
+    {
+      "id": "growth_funnel_conversion",
+      "name": "增长漏斗转化率",
+      "category": "增长",
+      "difficulty": 2
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "id": "cost_plus_pricing",
+  "name": "成本加成定价",
+  "category": "定价",
+  "description": "最基础定价法:售价 = 单位成本 × (1 + 加成率),适合制造业、零售业。",
+  "difficulty": 1,
+  "tags": [
+    "成本加成",
+    "定价",
+    "毛利"
+  ],
+  "inputs": [
+    {
+      "name": "unit_cost",
+      "label": "单位成本",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    },
+    {
+      "name": "markup_rate",
+      "label": "加成率",
+      "type": "number",
+      "unit": "%",
+      "default": 30,
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "price",
+      "label": "建议售价",
+      "unit": "元"
+    },
+    {
+      "name": "gross_profit",
+      "label": "单位毛利",
+      "unit": "元"
+    }
+  ],
+  "formula": "price = unit_cost * (1 + markup_rate / 100)",
+  "interpretation": "零售业常用 30-50% 加成;餐饮食材成本 30-35% 对应 200% 加成。",
+  "knowledge_ids": [
+    "pricing_strategy__成本加成"
+  ],
+  "cases": [],
+  "examples": []
+}

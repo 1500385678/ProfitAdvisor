@@ -1,0 +1,77 @@
+{
+  "id": "growth_funnel_conversion",
+  "name": "增长漏斗转化率",
+  "category": "增长",
+  "description": "分阶段计算漏斗转化率,识别增长瓶颈阶段(曝光→点击→注册→付费→留存)。",
+  "difficulty": 2,
+  "tags": [
+    "漏斗",
+    "转化率",
+    "增长",
+    "留存"
+  ],
+  "inputs": [
+    {
+      "name": "impressions",
+      "label": "曝光量",
+      "type": "number",
+      "unit": "次",
+      "required": true
+    },
+    {
+      "name": "clicks",
+      "label": "点击量",
+      "type": "number",
+      "unit": "次",
+      "required": true
+    },
+    {
+      "name": "signups",
+      "label": "注册数",
+      "type": "number",
+      "unit": "人",
+      "required": true
+    },
+    {
+      "name": "payers",
+      "label": "付费数",
+      "type": "number",
+      "unit": "人",
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "ctr",
+      "label": "点击率",
+      "unit": "%"
+    },
+    {
+      "name": "signup_rate",
+      "label": "注册转化率",
+      "unit": "%"
+    },
+    {
+      "name": "paid_rate",
+      "label": "付费转化率",
+      "unit": "%"
+    },
+    {
+      "name": "overall_rate",
+      "label": "总转化率",
+      "unit": "%"
+    },
+    {
+      "name": "bottleneck",
+      "label": "瓶颈阶段",
+      "unit": "str"
+    }
+  ],
+  "formula": "ctr = clicks/impressions; signup = signups/clicks; paid = payers/signups; overall = payers/impressions",
+  "interpretation": "找到最低转化阶段即为瓶颈;行业基准:CTR 1-3%、注册 30-50%、付费 5-15%。",
+  "knowledge_ids": [
+    "unit_economics__增长模型"
+  ],
+  "cases": [],
+  "examples": []
+}
