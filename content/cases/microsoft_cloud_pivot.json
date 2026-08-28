@@ -1,0 +1,46 @@
+{
+  "id": "microsoft_cloud_pivot",
+  "title": "微软云转型:从 Windows 授权到 Azure,纳德拉 10 年市值涨 10 倍",
+  "company": "Microsoft",
+  "industry": "软件/云",
+  "topic": "转型",
+  "region": "美国",
+  "period": "2014-2024",
+  "background": "2014 年纳德拉接任 CEO,Windows 授权收入见顶,启动'移动为先 / 云为先'战略,砍掉 Nokia 手机业务,Azure 从 2015 年 $8B 营收冲到 2024 年 $75B(占总营收 33%),Office 365 订阅化改造,2024 财年市值 $3.1T(2014 末 $300B),10 年涨 10 倍。",
+  "data": {
+    "azure_revenue_2015_billion_usd": 8.0,
+    "azure_revenue_2024_billion_usd": 75.0,
+    "market_cap_2014_billion_usd": 300,
+    "market_cap_2024_billion_usd": 3100,
+    "cloud_revenue_share_2024": 0.33
+  },
+  "decisions": [
+    "砍 $7.6B 收购的 Nokia 手机业务,承认移动失败",
+    "Office 强制转订阅(Office 365),从'一次性'到'持续'",
+    "Azure 与 AWS 错位竞争(混合云 + 企业 IT 关系),不正面拼 IaaS 价格"
+  ],
+  "reflection": "纳德拉的转型核心不是'上云',是'订阅化'。Windows 授权是一次性现金奶牛,Azure + Office 365 是持续现金流。一次性卖 $100 → 每年 $30 续 5 年,现金流 5 倍化但客户数相同,本质是商业模式的转变。",
+  "lessons": [
+    "转型不是'新业务',是'老业务的商业化方式重做'",
+    "承认失败要快(砍 Nokia 仅 1 年),止损节奏比转型速度更关键",
+    "云转型要避开巨头正面价格战,找错位(混合云 / 行业云 / 私有化)"
+  ],
+  "tags": [
+    "云转型",
+    "订阅化",
+    "商业模式",
+    "管理层"
+  ],
+  "knowledge_ids": [
+    "revenue_model__订阅",
+    "revenue_model__平台"
+  ],
+  "calculators": [
+    "ltv_cac",
+    "payback_period"
+  ],
+  "sources": [
+    "Microsoft FY24 10-K",
+    "Hit Refresh (Satya Nadella)"
+  ]
+}

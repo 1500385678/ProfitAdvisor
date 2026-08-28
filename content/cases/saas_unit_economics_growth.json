@@ -1,0 +1,48 @@
+{
+  "id": "saas_unit_economics_growth",
+  "title": "SaaS 单位经济:从 LTV/CAC 1.5 到 5.0 的 Slack 增长模型",
+  "company": "Slack",
+  "industry": "SaaS",
+  "topic": "增长",
+  "region": "美国",
+  "period": "2013-2019",
+  "background": "Slack 2013 年公开测试,2014 年估值 $250M,2019 年纽交所直接上市(DPO)估值 $197 亿。早期靠'底部免费 + 病毒传播'(团队内一人用 → 全公司用)实现 LTV/CAC > 3,但 CAC 持续上涨(2017 $1 → 2019 $1.5)最终拖到上市前都未盈利,2021 年被 Salesforce $277 亿收购。",
+  "data": {
+    "ltv_cac_2014": 5.0,
+    "ltv_cac_2018": 1.5,
+    "cac_2017_usd": 1.0,
+    "cac_2019_usd": 1.5,
+    "2019_revenue_million_usd": 630,
+    "valuation_ipo_billion_usd": 19.7
+  },
+  "decisions": [
+    "底部免费 + 单团队病毒传播(团队每多 1 人,获客成本边际 = 0)",
+    "把 NPS 做为核心指标,> 50 视为 PMF 成立",
+    "后期投付费广告拉新客,稀释了 LTV/CAC"
+  ],
+  "reflection": "Slack 早期是教科书级'病毒 SaaS'案例,但增长后期陷入'自然增长见顶 + 付费拉新抬 CAC'两难。LTV/CAC 从 5 跌到 1.5 提醒:PLG 产品的护城河是产品本身的传播力,不是广告。",
+  "lessons": [
+    "LTV/CAC 早期 5+ 不可持续,3 是健康线",
+    "PLG 的天花板是产品 NPS,不是市场预算",
+    "DPO 是 SaaS 终局(被收购)的预演,IPO 反而难"
+  ],
+  "tags": [
+    "SaaS",
+    "PLG",
+    "病毒传播",
+    "LTV/CAC"
+  ],
+  "knowledge_ids": [
+    "unit_economics__LTV",
+    "unit_economics__CAC"
+  ],
+  "calculators": [
+    "ltv_cac",
+    "payback_period",
+    "growth_funnel_conversion"
+  ],
+  "sources": [
+    "Slack S-1 2019",
+    "Bessemer State of the Cloud"
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "id": "midea_digital_transformation",
+  "title": "美的数字化:从'制造工厂'到'工业互联网',净利润 10 年 3.4 倍",
+  "company": "美的集团",
+  "industry": "家电制造",
+  "topic": "转型",
+  "region": "中国",
+  "period": "2012-2023",
+  "background": "2012 年方洪波接任董事长,启动'632 战略'(6 大运营系统 + 3 大管理平台 + 2 大门户),2014 年引入 IBM 咨询,2018 年发布工业互联网平台 M.IoT,2023 年净利润 337 亿(2012 98 亿,3.4 倍)。关键:制造端 C2M(用户直连制造)+ 销售端 T+3(以销定产,3 天交付)。",
+  "data": {
+    "net_profit_2012_billion_cny": 9.8,
+    "net_profit_2023_billion_cny": 33.7,
+    "growth_multiple_10y": 3.4,
+    "t3_delivery_days": 3,
+    "iot_devices_2023_million": 100
+  },
+  "decisions": [
+    "T+3 订单驱动生产:从'压货模式'变'以销定产',库存周转从 60 天压到 30 天",
+    "632 系统打通 ERP/MES/PLM,把决策权下放到事业部",
+    "M.IoT 把工厂能力外部化(给其他制造业做工业互联网)"
+  ],
+  "reflection": "美的转型不是'互联网+',是'制造业自身的 IT 重构'。核心 KPI 是库存周转天数,而非新业务收入。利润增长不是来自新业务,而是老业务的库存压缩。",
+  "lessons": [
+    "传统行业转型 KPI 不要看新业务,看老业务的'人效/库存/周转'",
+    "T+3 模式必须配合事业部制,否则推不动",
+    "工业互联网是'把自己数字化后,服务别人',而非'做新平台'"
+  ],
+  "tags": [
+    "数字化",
+    "库存周转",
+    "C2M",
+    "工业互联网"
+  ],
+  "knowledge_ids": [
+    "cost_structure__规模经济",
+    "cash_flow__营运资金"
+  ],
+  "calculators": [
+    "working_capital",
+    "monthly_cash_flow"
+  ],
+  "sources": [
+    "美的 2023 年报",
+    "方洪波《美的转型》"
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "id": "ofo_burn_rate_collapse",
+  "title": "ofo 退押金危机:日订单峰值 3200 万到 2000 万人排队退款",
+  "company": "Ofo 小黄车",
+  "industry": "共享出行",
+  "topic": "失败",
+  "region": "中国",
+  "period": "2015-2021",
+  "background": "2015 年北大校园起家,2017 年日订单峰值 3200 万,2018 年拿到阿里 + 滴滴 + 蚂蚁 14 亿美元(史上最高共享单车融资),2018-2019 资金链断裂,2021 年排队退款人数突破 2000 万,押金 99-199 元/单车,理论应退 30-60 亿,实际无力兑付。",
+  "data": {
+    "peak_daily_orders_million": 32,
+    "total_funding_billion_usd": 1.4,
+    "users_queuing_refund_2021_million": 20,
+    "deposit_cny": 99,
+    "deposit_late_cny": 199
+  },
+  "decisions": [
+    "在 ofo + 摩拜 + 哈啰 三方大战中持续补贴,单车成本 300+ 单次收入 < 1 元",
+    "挪用押金做新业务(广告/硬件),把押金池当现金流",
+    "拒绝滴滴 + 蚂蚁 的合并方案,坚持独立"
+  ],
+  "reflection": "ofo 是'烧钱换规模 + 挪用押金'的双重失败。烧钱本身不致死(瑞幸也烧),致死的是把'用户押金'当融资来源。一旦新业务不盈利 + 押金池被挪用,死亡螺旋即刻启动。",
+  "lessons": [
+    "押金是用户的钱,不是你的融资款",
+    "烧钱换规模的尽头是合并或倒闭,没有第三条路",
+    "单车/充电宝等'高密度 + 低毛利'行业,毛利率 > 0 是底线"
+  ],
+  "tags": [
+    "押金",
+    "烧钱",
+    "共享经济",
+    "现金流"
+  ],
+  "knowledge_ids": [
+    "cash_flow__营运资金",
+    "unit_economics__回收期"
+  ],
+  "calculators": [
+    "payback_period",
+    "monthly_cash_flow"
+  ],
+  "sources": [
+    "界面新闻 ofo 调查 2021",
+    "晚点 ofo 终局"
+  ]
+}

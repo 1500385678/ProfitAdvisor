@@ -1,0 +1,47 @@
+{
+  "id": "netflix_subscription_tiers",
+  "title": "Netflix 订阅阶梯:从 $7.99 单档到 4 档含广告版,2022 流失逆转",
+  "company": "Netflix",
+  "industry": "流媒体",
+  "topic": "定价",
+  "region": "美国",
+  "period": "2007-2024",
+  "background": "2014 年起 Netflix 把 DVD + 流媒体分离定价,2020 年取消免费试用,2022 年 Q1 流失 20 万订阅(十年首次),随即推 Basic($6.99) / Standard 含广告($6.99)/ Standard($15.49)/ Premium($22.99) 四档 + 打击共享密码,2023 Q3 净增 876 万订阅,2024 年含广告版突破 7000 万全球用户。",
+  "data": {
+    "subscribers_2024_million": 282.7,
+    "ad_tier_subscribers_2024_q4_million": 70,
+    "tiers_count": 4,
+    "price_range_usd": "6.99 - 22.99",
+    "q1_2022_churn_k": -200,
+    "q3_2023_net_adds_million": 8.76
+  },
+  "decisions": [
+    "广告版 $6.99 拉新,Premium $22.99 拉利润,中段 $15.49 是利润锚",
+    "把共享密码'灰色行为'正式商业化(Extra Member 插槽)",
+    "广告库存卖给 Microsoft,让 MS 承担广告技术栈,Netflix 抽成"
+  ],
+  "reflection": "订阅产品的定价难在'老用户'。Netflix 2022 危机证明,涨价 + 共享打击一次性伤害,但通过广告版回填低价用户,把流失变成新档位,完成 ARPU 结构的健康化。",
+  "lessons": [
+    "订阅产品一定要 ≥ 3 档,中段是利润锚",
+    "涨价 + 推低价版 + 严打共享 三件套可同时做,不必等数据先动",
+    "广告版不能'廉价感',要做出独立价值(新内容/独家剧)"
+  ],
+  "tags": [
+    "订阅",
+    "阶梯定价",
+    "广告",
+    "用户分层"
+  ],
+  "knowledge_ids": [
+    "pricing_strategy__订阅定价",
+    "pricing_strategy__价值定价"
+  ],
+  "calculators": [
+    "ltv_cac",
+    "payback_period"
+  ],
+  "sources": [
+    "Netflix 2023 / 2024 季报",
+    "Antenna 订阅经济报告"
+  ]
+}

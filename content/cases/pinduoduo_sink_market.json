@@ -1,0 +1,46 @@
+{
+  "id": "pinduoduo_sink_market",
+  "title": "拼多多下沉:用'百亿补贴'把 9.9 包邮做成 8 亿人的日常",
+  "company": "拼多多",
+  "industry": "电商",
+  "topic": "中国",
+  "region": "中国",
+  "period": "2018-2023",
+  "background": "2015 年成立,2018 年纳斯达克上市,2019 年推出'百亿补贴'主攻 iPhone/茅台等高客单,完成'下沉 → 主流'反转,2020 年活跃买家 7.88 亿(超阿里 7.79 亿),2023 年市值 $1800 亿,GMV 4.2 万亿(阿里 7 万亿),人均年消费 ¥3000+(阿里 ¥9000+)。",
+  "data": {
+    "active_buyers_2020_million": 788,
+    "active_buyers_alibaba_2020_million": 779,
+    "annual_spend_2023_cny": 3000,
+    "alibaba_annual_spend_cny": 9000,
+    "billion_subsidy_program_year": 2019
+  },
+  "decisions": [
+    "微信生态起家,砍掉 APP 拉新成本(社交电商红利)",
+    "百亿补贴 iPhone 茅台,用'绝对低价爆品'反向下沉",
+    "多多买菜 / 多多视频,从电商切到生活,提高用户时长"
+  ],
+  "reflection": "拼多多的逆袭证明'流量结构变化 > 商业模式创新'。微信 12 亿月活的红利,拼多多是第一个把它榨干的电商。下沉不是降级,是'流量结构 + 货品密度'的匹配。",
+  "lessons": [
+    "社交关系链是电商的'免费渠道',别花钱买流量",
+    "百亿补贴的本质是'亏本拉高端用户'反向教育下沉市场",
+    "GMV 不是终极 KPI,年度人均消费 + 复购率才是"
+  ],
+  "tags": [
+    "社交电商",
+    "下沉市场",
+    "百亿补贴",
+    "微信生态"
+  ],
+  "knowledge_ids": [
+    "revenue_model__平台",
+    "unit_economics__复购"
+  ],
+  "calculators": [
+    "ltv_cac",
+    "payback_period"
+  ],
+  "sources": [
+    "拼多多 2020 / 2023 财报",
+    "晚点《拼多多下沉》"
+  ]
+}

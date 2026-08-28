@@ -1,0 +1,45 @@
+{
+  "id": "apple_iphone_value_pricing",
+  "title": "苹果 iPhone 的价值定价:从 $499 入门到 $1599 Pro Max 的价格阶梯",
+  "company": "Apple",
+  "industry": "消费电子",
+  "topic": "定价",
+  "region": "美国",
+  "period": "2007-至今",
+  "background": "2007 年初代 iPhone $499(4GB)/ $599(8GB),后续靠存储/屏幕/材质/Pro/Plus 拉出 $799→$1599 共 6 档。2023 财年 iPhone 营收约 $200B,占苹果总营收 52%,ASP(平均售价)稳定在 $900+。",
+  "data": {
+    "iphone_revenue_2023_billion_usd": 200.0,
+    "asp_2023_usd": 900,
+    "gross_margin_iphone": 0.38,
+    "product_tiers": 6
+  },
+  "decisions": [
+    "价值定价而非成本加成:锚点在'我能给客户创造什么'而非 BOM",
+    "Pro/Pro Max 与标准版拉出 $400 价差,引导高利润用户上探",
+    "存储从 64GB 升 256GB 加 $100,而非按成本,$/GB 阶梯式涨价"
+  ],
+  "reflection": "价值定价的关键是'阶梯化'。一个 SKU 只能赚一道钱,6 个 SKU 赚 6 道钱,且高端拉利润、低端拉用户基数。",
+  "lessons": [
+    "至少 3 档 SKU,中间档是利润锚(避免中端被低估)",
+    "存储/颜色/材质是天然的阶梯化维度,几乎零 BOM 成本",
+    "不要轻易降价:苹果从不在新机发布后 12 个月内官方降价"
+  ],
+  "tags": [
+    "价值定价",
+    "阶梯定价",
+    "消费电子",
+    "品牌溢价"
+  ],
+  "knowledge_ids": [
+    "pricing_strategy__价值定价",
+    "pricing_strategy__阶梯定价"
+  ],
+  "calculators": [
+    "value_based_pricing",
+    "contribution_margin"
+  ],
+  "sources": [
+    "Apple 10-K 2023",
+    "TechInsights iPhone BOM 分析"
+  ]
+}

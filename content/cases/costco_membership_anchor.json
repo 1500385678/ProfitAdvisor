@@ -1,0 +1,47 @@
+{
+  "id": "costco_membership_anchor",
+  "title": "Costco 会员费:商品亏本卖,一年收 $58 亿会员费才是利润",
+  "company": "Costco",
+  "industry": "零售",
+  "topic": "定价",
+  "region": "美国",
+  "period": "1983-至今",
+  "background": "Costco 全球门店商品平均毛利率仅 11%(普通超市 25-35%),利润几乎全部来自会员费,2023 财年会员费收入 $45.8 亿 / 净利润 $62.9 亿,会员费占净利 73%。黑卡($120/年)续卡率 92.5%,远超行业 60%。",
+  "data": {
+    "merchandise_margin": 0.11,
+    "membership_fee_revenue_2023_billion_usd": 4.58,
+    "net_profit_2023_billion_usd": 6.29,
+    "membership_profit_share": 0.73,
+    "executive_renewal_rate": 0.925,
+    "executive_fee_usd": 120
+  },
+  "decisions": [
+    "商品定价'不超 14% 加成',书面写入员工守则",
+    "会员费上调极慢(2017 金卡 $55→$60,2020 黑卡 $110→$120),用'不涨价'换续卡率",
+    "自有品牌 Kirkland 撑起高 ASP,会员感知'省更多'"
+  ],
+  "reflection": "Costco 的本质是'会员费订阅制零售'。商品亏本卖换心智,会员费才是真利润。这是订阅经济的零售变体,订阅产品的核心 KPI 是续费率,不是 GMV。",
+  "lessons": [
+    "低价不是策略,低价 + 锁定复购才是",
+    "会员费涨价节奏要远低于通胀,稳定预期换续卡率",
+    "毛利率封顶写入制度,避免管理层短期逐利"
+  ],
+  "tags": [
+    "会员制",
+    "订阅",
+    "毛利率封顶",
+    "续卡率"
+  ],
+  "knowledge_ids": [
+    "pricing_strategy__会员制",
+    "unit_economics__续费率"
+  ],
+  "calculators": [
+    "ltv_cac",
+    "payback_period"
+  ],
+  "sources": [
+    "Costco 2023 10-K",
+    "NYT 'How Costco Wins'"
+  ]
+}
