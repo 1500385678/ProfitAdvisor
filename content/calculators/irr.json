@@ -1,0 +1,100 @@
+{
+  "id": "irr",
+  "name": "内部收益率 IRR",
+  "category": "投资",
+  "description": "使项目净现值 NPV = 0 的折现率,反映项目实际年化回报。考虑货币时间价值,比 ROI 更准确反映长周期投资的真实回报。",
+  "difficulty": 3,
+  "tags": [
+    "IRR",
+    "内部收益率",
+    "NPV",
+    "贴现",
+    "投资"
+  ],
+  "inputs": [
+    {
+      "name": "investment",
+      "label": "初始投资",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    },
+    {
+      "name": "year1_cf",
+      "label": "第1年现金流",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    },
+    {
+      "name": "year2_cf",
+      "label": "第2年现金流",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    },
+    {
+      "name": "year3_cf",
+      "label": "第3年现金流",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    },
+    {
+      "name": "year4_cf",
+      "label": "第4年现金流",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    },
+    {
+      "name": "year5_cf",
+      "label": "第5年现金流",
+      "type": "number",
+      "unit": "元",
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "irr",
+      "label": "内部收益率",
+      "unit": "%"
+    },
+    {
+      "name": "npv_check",
+      "label": "NPV 校验(应≈0)",
+      "unit": "元"
+    },
+    {
+      "name": "vs_roi_hint",
+      "label": "与 ROI 差异提示",
+      "unit": "str"
+    }
+  ],
+  "formula": "求解 IRR 使 NPV = -investment + Σ(year_t_cf / (1+IRR)^t) = 0;Phase 1 由 calc_engine 牛顿迭代求解",
+  "interpretation": "IRR > 15% 算优秀;8-15% 可接受;< 8% 不如余额宝。若 IRR 远低于 ROI,说明后期回款占比高,警惕资金时间成本;若 IRR 多次解则项目现金流形态异常,需重新审视投资逻辑。",
+  "knowledge_ids": [
+    "roi__内部收益率",
+    "roi__NPV"
+  ],
+  "cases": [],
+  "examples": [
+    {
+      "inputs": {
+        "investment": 1000000,
+        "year1_cf": 300000,
+        "year2_cf": 400000,
+        "year3_cf": 500000,
+        "year4_cf": 200000,
+        "year5_cf": 100000
+      },
+      "outputs": {
+        "irr": 12.95,
+        "npv_check": 0.0,
+        "vs_roi_hint": "ROI≈50% 但 IRR≈13%,后期回款多,实际回报低于直觉"
+      },
+      "note": "100 万投资,5 年共回款 150 万,ROI=50% 但 IRR 仅 12.95%(因后期回款贴现损耗)。"
+    }
+  ]
+}

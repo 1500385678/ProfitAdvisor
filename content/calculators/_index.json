@@ -1,12 +1,12 @@
 {
   "schema_version": "0.1.0",
-  "generated_at": "2026-08-28T03:41:48",
-  "total": 10,
+  "generated_at": "2026-09-01T03:41:51",
+  "total": 11,
   "by_category": {
     "利润": 2,
     "现金流": 2,
     "定价": 2,
-    "投资": 2,
+    "投资": 3,
     "单位经济": 1,
     "增长": 1
   },
@@ -63,6 +63,12 @@
       "id": "ltv_cac",
       "name": "LTV / CAC 比",
       "category": "单位经济",
+      "difficulty": 3
+    },
+    {
+      "id": "irr",
+      "name": "内部收益率 IRR",
+      "category": "投资",
       "difficulty": 3
     },
     {
