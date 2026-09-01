@@ -274,6 +274,42 @@ SEED_CALCULATORS: list[CalculatorSpec] = [
              "note": "100 万投资,5 年共回款 150 万,ROI=50% 但 IRR 仅 12.95%(因后期回款贴现损耗)。"},
         ],
     ),
+    # ===== 投资类 续2 (11→12 · 2026-09-02 T1) · NPV 与 IRR 配对 =====
+    CalculatorSpec(
+        id="net_present_value",
+        name="净现值 NPV",
+        category="投资",
+        difficulty=3,
+        description="把未来 5 年现金流按给定折现率贴现回今天,减去初始投资,得到项目净现值。"
+                   "NPV > 0 项目创造价值;< 0 项目毁灭价值;= 0 刚好回本。"
+                   "与 IRR 配对使用:NPV 算绝对值,IRR 算收益率;两者一致判断才稳。",
+        tags=["NPV", "净现值", "贴现", "投资", "现金流"],
+        inputs=[
+            {"name": "investment",   "label": "初始投资",     "type": "number", "unit": "元",  "required": True},
+            {"name": "year1_cf",     "label": "第1年现金流",  "type": "number", "unit": "元",  "required": True},
+            {"name": "year2_cf",     "label": "第2年现金流",  "type": "number", "unit": "元",  "required": True},
+            {"name": "year3_cf",     "label": "第3年现金流",  "type": "number", "unit": "元",  "required": True},
+            {"name": "year4_cf",     "label": "第4年现金流",  "type": "number", "unit": "元",  "required": True},
+            {"name": "year5_cf",     "label": "第5年现金流",  "type": "number", "unit": "元",  "required": True},
+            {"name": "discount_rate","label": "折现率(年化)","type": "number", "unit": "%",  "required": True, "min": 0, "max": 100},
+        ],
+        outputs=[
+            {"name": "npv",           "label": "净现值 NPV",       "unit": "元"},
+            {"name": "npv_ratio",     "label": "NPV / 投资 占比",  "unit": "%"},
+            {"name": "vs_irr_hint",   "label": "与 IRR 一致性提示", "unit": "str"},
+        ],
+        formula="NPV = -investment + Σ(year_t_cf / (1 + discount_rate/100)^t), t=1..5;Phase 1 由 calc_engine 实算",
+        interpretation="NPV > 0 项目创造价值;< 0 毁灭价值;= 0 刚好回本。一般要求 NPV > 投资额 10% (npv_ratio > 10%) 算可接受。同一项目用 IRR 算出收益率,若 IRR < 折现率但 NPV > 0 通常是短回款 + 长尾贴现拖累,可接受;反之 IRR > 折现率但 NPV < 0 极罕见,需重新审视现金流形态。",
+        knowledge_ids=["roi__NPV", "roi__内部收益率", "cash_flow__贴现"],
+        examples=[
+            {"inputs": {"investment": 1000000, "year1_cf": 300000, "year2_cf": 400000, "year3_cf": 500000, "year4_cf": 200000, "year5_cf": 100000, "discount_rate": 10},
+             "outputs": {"npv": 54188.0, "npv_ratio": 5.42, "vs_irr_hint": "NPV>0 + IRR 12.95% > 折现率 10%,项目可接受但价值创造有限,建议提升后期现金流或压折现率"},
+             "note": "100 万投资,5 年共 150 万回款,折现率 10% 下 NPV≈5.4 万(占投资 5.4%),与 IRR 12.95% 一致判断:勉强可行。"},
+            {"inputs": {"investment": 500000, "year1_cf": 200000, "year2_cf": 200000, "year3_cf": 200000, "year4_cf": 100000, "year5_cf": 50000, "discount_rate": 8},
+             "outputs": {"npv": 89240.0, "npv_ratio": 17.85, "vs_irr_hint": "NPV>0 + 占比 17.85%,健康回报,前 3 年回款快是关键"},
+             "note": "50 万投资,5 年共 75 万,折现率 8% 下 NPV≈8.9 万(占投资 17.85%),前 3 年回款 60 万占总投资 120% 是关键。"},
+        ],
+    ),
     # ===== 增长类 =====
     CalculatorSpec(
         id="growth_funnel_conversion",

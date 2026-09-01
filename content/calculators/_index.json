@@ -1,12 +1,12 @@
 {
   "schema_version": "0.1.0",
-  "generated_at": "2026-09-01T03:41:51",
-  "total": 11,
+  "generated_at": "2026-09-02T03:42:03",
+  "total": 12,
   "by_category": {
     "利润": 2,
     "现金流": 2,
     "定价": 2,
-    "投资": 3,
+    "投资": 4,
     "单位经济": 1,
     "增长": 1
   },
@@ -68,6 +68,12 @@
     {
       "id": "irr",
       "name": "内部收益率 IRR",
+      "category": "投资",
+      "difficulty": 3
+    },
+    {
+      "id": "net_present_value",
+      "name": "净现值 NPV",
       "category": "投资",
       "difficulty": 3
     },
