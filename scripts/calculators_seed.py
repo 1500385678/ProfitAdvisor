@@ -335,6 +335,47 @@ SEED_CALCULATORS: list[CalculatorSpec] = [
         interpretation="找到最低转化阶段即为瓶颈;行业基准:CTR 1-3%、注册 30-50%、付费 5-15%。",
         knowledge_ids=["unit_economics__增长模型"],
     ),
+    # ===== 增长类 续 (12→13 · 2026-09-03 T1 续3) · CAGR 复利 =====
+    CalculatorSpec(
+        id="compound_growth",
+        name="复利增长模型 / CAGR",
+        category="增长",
+        difficulty=2,
+        description="复合年增长率(CAGR) = 终值/初值的 n 次方根减 1,衡量年均真实增速。"
+                   "同时给出翻倍时间(72法则:年化 % 下翻倍 ≈ 72/年化%)与终值复利预测,"
+                   "用于评估用户/收入/利润/估值的真实增长曲线,排除起始和终点异常值的干扰。",
+        tags=["CAGR", "复利", "复合年增长率", "增长", "72法则"],
+        inputs=[
+            {"name": "start_value",   "label": "期初值",     "type": "number", "unit": "元",  "required": True, "min": 0},
+            {"name": "end_value",     "label": "期末值",     "type": "number", "unit": "元",  "required": True, "min": 0},
+            {"name": "years",         "label": "期数(年)",   "type": "number", "unit": "年",  "required": True, "min": 0.5, "max": 30},
+            {"name": "forward_years", "label": "继续预测年数","type": "number", "unit": "年",  "required": True, "min": 0,  "max": 20, "default": 0},
+        ],
+        outputs=[
+            {"name": "cagr",            "label": "复合年增长率 CAGR",   "unit": "%"},
+            {"name": "doubling_years",  "label": "翻倍时间(72法则)",   "unit": "年"},
+            {"name": "forward_value",   "label": "继续预测 N 年后终值", "unit": "元"},
+            {"name": "growth_multiple", "label": "N 年后增长倍数",     "unit": "倍"},
+            {"name": "health_hint",     "label": "增长健康度提示",     "unit": "str"},
+        ],
+        formula="CAGR = (end_value/start_value)^(1/years) - 1;doubling_years ≈ 72 / (CAGR*100);"
+                "forward_value = end_value × (1 + CAGR)^forward_years;growth_multiple = (1 + CAGR)^forward_years;Phase 1 由 calc_engine 实算",
+        interpretation="CAGR > 20% 属高速增长(通常仅 SaaS/独角兽阶段可达);10-20% 属健康增长(优质成长股);"
+                       "5-10% 属稳健增长(成熟企业);0-5% 属低速(传统行业/接近天花板);< 0 即衰退。"
+                       "翻倍时间 < 5 年通常对应 CAGR > 14%,是高增长企业的硬指标。"
+                       "注意 CAGR 是平滑值,真实增长可能波动巨大,需结合年增速序列判断稳定性。",
+        knowledge_ids=["revenue_model__复利", "revenue_model__增长", "unit_economics__客户终身价值"],
+        examples=[
+            {"inputs": {"start_value": 1000000, "end_value": 4000000, "years": 5, "forward_years": 3},
+             "outputs": {"cagr": 31.95, "doubling_years": 2.25, "forward_value": 9189586.84, "growth_multiple": 2.30,
+                         "health_hint": "CAGR 31.95% > 20% 属高速增长,翻倍仅需 2.25 年;再 3 年(共 8 年)从 100 万涨到 919 万,3 年后规模再翻 2.3 倍,需配套销售/团队/资本跟上"},
+             "note": "典型 SaaS 独角兽 5 年:100 万 → 400 万;CAGR 31.95%,翻倍 2.25 年;若势头继续,再 3 年可达 919 万,提示团队扩张节奏要跟上。"},
+            {"inputs": {"start_value": 1000000, "end_value": 1500000, "years": 3, "forward_years": 5},
+             "outputs": {"cagr": 14.47, "doubling_years": 4.98, "forward_value": 2948334.07, "growth_multiple": 1.97,
+                         "health_hint": "CAGR 14.47% 属健康增长(10-20% 区间),翻倍约 5 年;再 5 年(共 8 年)从 100 万到 295 万,接近再翻 2 倍,符合优质成长股节奏"},
+             "note": "稳健成长型:3 年从 100 万到 150 万;CAGR 14.47%,翻倍 4.98 年;再 5 年 295 万,符合成熟成长股节奏。"},
+        ],
+    ),
 ]
 
 

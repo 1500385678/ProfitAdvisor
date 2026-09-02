@@ -1,14 +1,14 @@
 {
   "schema_version": "0.1.0",
-  "generated_at": "2026-09-02T03:42:03",
-  "total": 12,
+  "generated_at": "2026-09-03T03:40:01",
+  "total": 13,
   "by_category": {
     "利润": 2,
     "现金流": 2,
     "定价": 2,
     "投资": 4,
     "单位经济": 1,
-    "增长": 1
+    "增长": 2
   },
   "calculators": [
     {
@@ -80,6 +80,12 @@
     {
       "id": "growth_funnel_conversion",
       "name": "增长漏斗转化率",
+      "category": "增长",
+      "difficulty": 2
+    },
+    {
+      "id": "compound_growth",
+      "name": "复利增长模型 / CAGR",
       "category": "增长",
       "difficulty": 2
     }
