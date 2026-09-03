@@ -1,0 +1,104 @@
+{
+  "id": "multi_product_break_even",
+  "name": "多产品盈亏平衡(加权)",
+  "category": "利润",
+  "description": "在销售多种产品的场景下,基于各产品销量占比(销售结构)计算加权单位边际贡献,再反算整体保本销售额和各产品保本销量。比基础 break_even_point 多了产品组合(产品 A/B/C)与价格结构(单价/单位变动成本/占比)输入,可同时输出 3 个产品的保本销量,适合餐饮(多菜品)/零售(多 SKU)/SaaS(多套餐)等多产品线经营场景。",
+  "difficulty": 3,
+  "tags": [
+    "盈亏平衡",
+    "多产品",
+    "销售结构",
+    "加权边际贡献",
+    "产品组合"
+  ],
+  "inputs": [
+    {
+      "name": "fixed_cost",
+      "label": "总固定成本",
+      "type": "number",
+      "unit": "元",
+      "required": true,
+      "min": 0
+    },
+    {
+      "name": "products",
+      "label": "产品列表(最多 3 个,逗号分隔 name:price:variable_cost:mix_share)",
+      "type": "string",
+      "unit": "str",
+      "required": true,
+      "placeholder": "A:100:40:0.5,B:200:80:0.3,C:300:150:0.2"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "weighted_contribution_margin",
+      "label": "加权单位边际贡献",
+      "unit": "元/件"
+    },
+    {
+      "name": "weighted_blend_price",
+      "label": "加权平均单价",
+      "unit": "元/件"
+    },
+    {
+      "name": "break_even_revenue",
+      "label": "总保本销售额",
+      "unit": "元"
+    },
+    {
+      "name": "break_even_units_total",
+      "label": "总保本销量",
+      "unit": "件"
+    },
+    {
+      "name": "per_product_units",
+      "label": "各产品保本销量",
+      "unit": "str"
+    },
+    {
+      "name": "mix_sensitivity_hint",
+      "label": "销售结构敏感度提示",
+      "unit": "str"
+    }
+  ],
+  "formula": "对每个产品计算 cm_i = price_i - variable_cost_i;加权平均单位边际贡献 wcm = Σ(cm_i × share_i);加权均价 wprice = Σ(price_i × share_i);加权 cm 率 wratio = wcm / wprice;break_even_revenue = fixed_cost / wratio;break_even_units_total = break_even_revenue / wprice;per_product_units_i = break_even_units_total × share_i;Phase 1 由 calc_engine 实算",
+  "interpretation": "加权 cm 率 wratio 反映「组合后真正赚钱效率」;若某产品 cm 率高(高 cm / 中等价)占比过低,会拉低整体 wratio → 保本销售额虚高;调结构(高 wratio 产品提占比 / 砍低 wratio 产品)可显著降低保本点;占比变化 ±10% 对 break_even_revenue 的影响即为结构敏感度。",
+  "knowledge_ids": [
+    "revenue_model__收入公式",
+    "profit_analysis__盈亏平衡",
+    "profit_analysis__销售组合"
+  ],
+  "cases": [],
+  "examples": [
+    {
+      "inputs": {
+        "fixed_cost": 80000,
+        "products": "咖啡:30:8:0.6,三明治:50:20:0.3,沙拉:60:25:0.1"
+      },
+      "outputs": {
+        "weighted_contribution_margin": 25.7,
+        "weighted_blend_price": 39,
+        "break_even_revenue": 121401,
+        "break_even_units_total": 3112.84,
+        "per_product_units": "咖啡 1867.70 件 / 三明治 933.85 件 / 沙拉 311.28 件",
+        "mix_sensitivity_hint": "加权 cm 率 0.659(咖啡 0.733/三明治 0.600/沙拉 0.583),若沙拉占比从 10% 升到 20%(咖啡从 60% 降到 50%),wcm 升到 27.0 但 wratio 反而降到 0.643,break_even_revenue 升到 124444(+2.5%);沙拉单价高但 cm 率最低,提占比反恶化盈亏,提示要拉的是 cm 率最高的咖啡(单品 cm 率 0.733)"
+      },
+      "note": "餐饮多品类:固定 8 万,加权 cm 25.7,加权均价 39,加权 cm 率 0.659;保本销售额 12.14 万,保本销量 3112.84 件;若只用基础 break_even_point 算咖啡单品,保本 3636 件(80000/22),组合视角下 1867 件咖啡 + 934 三明治 + 311 沙拉即达保本,体现多产品加权优势。"
+    },
+    {
+      "inputs": {
+        "fixed_cost": 50000,
+        "products": "基础版:99:20:0.7,专业版:299:80:0.25,企业版:999:200:0.05"
+      },
+      "outputs": {
+        "weighted_contribution_margin": 150,
+        "weighted_blend_price": 194,
+        "break_even_revenue": 64667,
+        "break_even_units_total": 333.33,
+        "per_product_units": "基础版 233.33 件 / 专业版 83.33 件 / 企业版 16.67 件",
+        "mix_sensitivity_hint": "加权 cm 率 0.773(基础 0.798/专业 0.733/企业 0.799),三档 cm 率接近,但企业版绝对贡献最大(单件 cm 799);若企业版占比从 5% 升到 10%(基础从 70% 降到 65%),wcm 升到 172.4,wratio 升到 0.778,break_even_revenue 略降至 64247(-0.6%);结构对保本点敏感度低,但企业版提占比可显著放大总利润(每提升 1% 占比,wcm 增 ~2.2 元)"
+      },
+      "note": "SaaS 多套餐:基础 99/专业 299/企业 999,加权均价 194,加权 cm 150;保本销售额 6.47 万,保本销量 333 件;cm 率三档接近(0.73-0.80),结构对保本点影响小,价值在于放大总利润池(企业版单件 cm 799 是基础的 10 倍)。"
+    }
+  ]
+}

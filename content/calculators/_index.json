@@ -1,9 +1,9 @@
 {
   "schema_version": "0.1.0",
-  "generated_at": "2026-09-03T03:40:01",
-  "total": 13,
+  "generated_at": "2026-09-04T03:40:01",
+  "total": 14,
   "by_category": {
-    "利润": 2,
+    "利润": 3,
     "现金流": 2,
     "定价": 2,
     "投资": 4,
@@ -22,6 +22,12 @@
       "name": "边际贡献率",
       "category": "利润",
       "difficulty": 2
+    },
+    {
+      "id": "multi_product_break_even",
+      "name": "多产品盈亏平衡(加权)",
+      "category": "利润",
+      "difficulty": 3
     },
     {
       "id": "monthly_cash_flow",
