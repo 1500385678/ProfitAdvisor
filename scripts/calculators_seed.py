@@ -2,9 +2,9 @@
 """
 calculators_seed.py · Phase 0 #3
 =================================
-把首批 10 个盈利计算器定义入库到 content/calculators/,作为 Phase 1 /calc API 的种子数据。
+把首批 15 个盈利计算器定义入库到 content/calculators/,作为 Phase 1 /calc API 的种子数据。
 
-输入: 内置 10 个 CalculatorSpec(覆盖主计划 4.2 财务计算六大类:利润/现金流/定价/投资/单位经济/增长)
+输入: 内置 15 个 CalculatorSpec(覆盖主计划 4.2 财务计算六大类:利润/现金流/定价/投资/单位经济/增长)
 输出:
   - content/calculators/<id>.json   单个计算器定义
   - content/calculators/_index.json 聚合索引(分类/数量/标签)
@@ -99,6 +99,60 @@ SEED_CALCULATORS: list[CalculatorSpec] = [
         formula="contribution = price - variable_cost; rate = contribution / price",
         interpretation="边际贡献率 > 30% 通常算健康;过低(<20%)说明成本结构脆弱,涨价或降本压力大。",
         knowledge_ids=["profit_analysis__边际贡献"],
+    ),
+    # ===== 利润类 续2 (2→3 · 2026-09-04 T1 续4) · 多产品盈亏平衡(加权) =====
+    # 与 break_even_point 配对形成"基础+改良"双轨:基础版只算单产品,改良版支持多产品加权与销售结构。
+    # 注:9/4 commit 当时只生成了 JSON,SEED_CALCULATORS 当时未同步;9/5 续5 把此条补回 seed 脚本,
+    #     让代码与 JSON 重新一致(工程师纪律:seed 脚本必须能完整重生成所有 JSON)。
+    CalculatorSpec(
+        id="multi_product_break_even",
+        name="多产品盈亏平衡(加权)",
+        category="利润",
+        difficulty=3,
+        description="在销售多种产品的场景下,基于各产品销量占比(销售结构)计算加权单位边际贡献,再反算整体保本销售额和各产品保本销量。"
+                   "比基础 break_even_point 多了产品组合(产品 A/B/C)与价格结构(单价/单位变动成本/占比)输入,"
+                   "可同时输出 3 个产品的保本销量,适合餐饮(多菜品)/零售(多 SKU)/SaaS(多套餐)等多产品线经营场景。",
+        tags=["盈亏平衡", "多产品", "销售结构", "加权边际贡献", "产品组合"],
+        inputs=[
+            {"name": "fixed_cost", "label": "总固定成本", "type": "number", "unit": "元", "required": True, "min": 0},
+            {"name": "products",   "label": "产品列表(最多 3 个,逗号分隔 name:price:variable_cost:mix_share)",
+             "type": "string", "unit": "str", "required": True,
+             "placeholder": "A:100:40:0.5,B:200:80:0.3,C:300:150:0.2"},
+        ],
+        outputs=[
+            {"name": "weighted_contribution_margin", "label": "加权单位边际贡献", "unit": "元/件"},
+            {"name": "weighted_blend_price",         "label": "加权平均单价",     "unit": "元/件"},
+            {"name": "break_even_revenue",           "label": "总保本销售额",     "unit": "元"},
+            {"name": "break_even_units_total",       "label": "总保本销量",       "unit": "件"},
+            {"name": "per_product_units",            "label": "各产品保本销量",   "unit": "str"},
+            {"name": "mix_sensitivity_hint",         "label": "销售结构敏感度提示","unit": "str"},
+        ],
+        formula="对每个产品计算 cm_i = price_i - variable_cost_i;"
+                "加权平均单位边际贡献 wcm = Σ(cm_i × share_i);"
+                "加权均价 wprice = Σ(price_i × share_i);"
+                "加权 cm 率 wratio = wcm / wprice;"
+                "break_even_revenue = fixed_cost / wratio;"
+                "break_even_units_total = break_even_revenue / wprice;"
+                "per_product_units_i = break_even_units_total × share_i;"
+                "Phase 1 由 calc_engine 实算",
+        interpretation="加权 cm 率 wratio 反映「组合后真正赚钱效率」;若某产品 cm 率高(高 cm / 中等价)占比过低,会拉低整体 wratio → 保本销售额虚高;"
+                       "调结构(高 wratio 产品提占比 / 砍低 wratio 产品)可显著降低保本点;"
+                       "占比变化 ±10% 对 break_even_revenue 的影响即为结构敏感度。",
+        knowledge_ids=["revenue_model__收入公式", "profit_analysis__盈亏平衡", "profit_analysis__销售组合"],
+        examples=[
+            {"inputs": {"fixed_cost": 80000, "products": "咖啡:30:8:0.6,三明治:50:20:0.3,沙拉:60:25:0.1"},
+             "outputs": {"weighted_contribution_margin": 25.7, "weighted_blend_price": 39,
+                         "break_even_revenue": 121401, "break_even_units_total": 3112.84,
+                         "per_product_units": "咖啡 1867.70 件 / 三明治 933.85 件 / 沙拉 311.28 件",
+                         "mix_sensitivity_hint": "加权 cm 率 0.659(咖啡 0.733/三明治 0.600/沙拉 0.583),若沙拉占比从 10% 升到 20%(咖啡从 60% 降到 50%),wcm 升到 27.0 但 wratio 反而降到 0.643,break_even_revenue 升到 124444(+2.5%);沙拉单价高但 cm 率最低,提占比反恶化盈亏,提示要拉的是 cm 率最高的咖啡(单品 cm 率 0.733)"},
+             "note": "餐饮多品类:固定 8 万,加权 cm 25.7,加权均价 39,加权 cm 率 0.659;保本销售额 12.14 万,保本销量 3112.84 件;若只用基础 break_even_point 算咖啡单品,保本 3636 件(80000/22),组合视角下 1867 件咖啡 + 934 三明治 + 311 沙拉即达保本,体现多产品加权优势。"},
+            {"inputs": {"fixed_cost": 50000, "products": "基础版:99:20:0.7,专业版:299:80:0.25,企业版:999:200:0.05"},
+             "outputs": {"weighted_contribution_margin": 150, "weighted_blend_price": 194,
+                         "break_even_revenue": 64667, "break_even_units_total": 333.33,
+                         "per_product_units": "基础版 233.33 件 / 专业版 83.33 件 / 企业版 16.67 件",
+                         "mix_sensitivity_hint": "加权 cm 率 0.773(基础 0.798/专业 0.733/企业 0.799),三档 cm 率接近,但企业版绝对贡献最大(单件 cm 799);若企业版占比从 5% 升到 10%(基础从 70% 降到 65%),wcm 升到 172.4,wratio 升到 0.778,break_even_revenue 略降至 64247(-0.6%);结构对保本点敏感度低,但企业版提占比可显著放大总利润(每提升 1% 占比,wcm 增 ~2.2 元)"},
+             "note": "SaaS 多套餐:基础 99/专业 299/企业 999,加权均价 194,加权 cm 150;保本销售额 6.47 万,保本销量 333 件;cm 率三档接近(0.73-0.80),结构对保本点影响小,价值在于放大总利润池(企业版单件 cm 799 是基础的 10 倍)。"},
+        ],
     ),
     # ===== 现金流类 =====
     CalculatorSpec(
@@ -376,6 +430,75 @@ SEED_CALCULATORS: list[CalculatorSpec] = [
              "note": "稳健成长型:3 年从 100 万到 150 万;CAGR 14.47%,翻倍 4.98 年;再 5 年 295 万,符合成熟成长股节奏。"},
         ],
     ),
+    # ===== 单位经济类 续 (14→15 · 2026-09-05 T1 续5) · CAC 回收期精细化 =====
+    # 与 ltv_cac 配对形成"基础+改良"双轨:ltv_cac 用简化公式 (cac/单期毛利),
+    # cac_payback_period 拆"首单折扣期"+"稳态毛利期"两段,并把"折扣期内回收 / 稳态回收 / 全 LTV 累计"
+    # 三个口径都给出来,营销+产品可各取所需。
+    CalculatorSpec(
+        id="cac_payback_period",
+        name="CAC 回收期(精细化)",
+        category="单位经济",
+        difficulty=3,
+        description="在 ltv_cac 简化公式(cac / 单期毛利)基础上,把首单折扣期与稳态期拆开,"
+                   "分阶段计算 CAC 回收月数:"
+                   "(1) 折扣期内回收:首月折扣收入达到 cac 所需的月数(数字营销场景);"
+                   "(2) 稳态回收:扣除首月折扣后,用稳态月毛利累计回本所需的月数(SaaS/订阅主流);"
+                   "(3) 全 LTV 回收:用客户生命周期内累计毛利回本所需的月数(算上续费/升级)。"
+                   "同时输出 CAC / LTV 比(改良版 1/(LTV/CAC)),给营销 + 产品 + 财务三方各取所需的口径。",
+        tags=["CAC", "回收期", "单位经济", "SaaS", "LTV", "获客成本", "基础+改良"],
+        inputs=[
+            {"name": "cac",                 "label": "获客成本 CAC",   "type": "number", "unit": "元", "required": True, "min": 0},
+            {"name": "first_month_revenue", "label": "首月收入(扣首单折扣前)","type": "number", "unit": "元", "required": True, "min": 0},
+            {"name": "first_month_discount","label": "首月折扣率",      "type": "number", "unit": "%",  "default": 0,    "required": False, "min": 0, "max": 100},
+            {"name": "steady_monthly_revenue","label": "稳态月收入(首单折扣后)","type": "number", "unit": "元", "required": True, "min": 0},
+            {"name": "gross_margin",        "label": "毛利率",         "type": "number", "unit": "%",  "required": True, "min": 0, "max": 100},
+            {"name": "monthly_churn",       "label": "月流失率",       "type": "number", "unit": "%",  "required": True, "min": 0, "max": 100},
+            {"name": "upgrade_rate",        "label": "月升级/增购率",  "type": "number", "unit": "%",  "default": 0,    "required": False, "min": 0, "max": 100},
+        ],
+        outputs=[
+            {"name": "first_period_payback",  "label": "首单期内回收月数",  "unit": "月"},
+            {"name": "steady_payback",        "label": "稳态回收月数",      "unit": "月"},
+            {"name": "total_payback",         "label": "全 LTV 累计回收月数","unit": "月"},
+            {"name": "ltv_value",             "label": "LTV 累计毛利贡献",  "unit": "元"},
+            {"name": "cac_ltv_ratio",         "label": "CAC / LTV 比",      "unit": "倍"},
+            {"name": "recovery_grade",        "label": "健康度评级",        "unit": "str"},
+            {"name": "action_hint",           "label": "运营动作建议",      "unit": "str"},
+        ],
+        formula="effective_first_revenue = first_month_revenue * (1 - first_month_discount/100);"
+                "first_period_payback = cac / effective_first_revenue;  # 折扣期内回本月数"
+                "effective_monthly_margin = steady_monthly_revenue * gross_margin / 100;"
+                "steady_payback = cac / effective_monthly_margin;  # 稳态毛利回本月数"
+                "# LTV 累计:每月净留存(1 - 月流失 + 升级增购)下累计回本月数"
+                "net_retention_rate = (1 - monthly_churn/100 + upgrade_rate/100);"
+                "ltv_value = effective_monthly_margin / max(0.01, 1 - net_retention_rate);  # 永续近似"
+                "total_payback ≈ cac / effective_monthly_margin  if 净留存 > 0 else ∞;"
+                "cac_ltv_ratio = cac / ltv_value;recovery_grade 按 steady_payback 区间分级。"
+                "Phase 1 由 calc_engine 实算。",
+        interpretation="稳态回收月数 ≤ 6 月:优秀(健康 SaaS 标志);6-12 月:良好(可接受);12-18 月:警告(现金流压力大);"
+                       "> 18 月:危险(烧钱模式,需重做获客或提价)。"
+                       "首单期内回收月数 > 1 月说明首单折扣力度不够,获客首日收入未覆盖 CAC;"
+                       "< 0.5 月说明首单折扣过度,可能在贴钱获客,需评估后续续费是否能补。"
+                       "全 LTV 累计回收月数 > 36 月说明 LTV > CAC,但回本周期过长,需关注净留存。"
+                       "CAC / LTV 比 < 0.33 算健康(对应 LTV/CAC > 3),0.33-0.5 可接受,> 0.5 危险。",
+        knowledge_ids=["unit_economics__CAC", "unit_economics__LTV", "unit_economics__回收期",
+                       "revenue_model__首单折扣", "cash_flow__稳态"],
+        examples=[
+            {"inputs": {"cac": 1500, "first_month_revenue": 200, "first_month_discount": 0,
+                        "steady_monthly_revenue": 400, "gross_margin": 80, "monthly_churn": 5, "upgrade_rate": 0},
+             "outputs": {"first_period_payback": 7.5, "steady_payback": 4.69, "total_payback": 4.69,
+                         "ltv_value": 6400.0, "cac_ltv_ratio": 0.23,
+                         "recovery_grade": "优秀(稳态 ≤ 6 月)",
+                         "action_hint": "稳态 4.69 月 + LTV/CAC 4.27 优秀,可加大投放,首单 7.5 月回收说明首单折扣不足,建议小幅下调首月价或加首月引导"},
+             "note": "健康 SaaS 案例:CAC 1500,首月 200(无折扣),稳态 400,毛利 80%,流失 5% → 稳态 4.69 月,优秀;LTV 6400,LTV/CAC 4.27 健康线之上。"},
+            {"inputs": {"cac": 800, "first_month_revenue": 100, "first_month_discount": 50,
+                        "steady_monthly_revenue": 150, "gross_margin": 30, "monthly_churn": 15, "upgrade_rate": 0},
+             "outputs": {"first_period_payback": 16.0, "steady_payback": 17.78, "total_payback": 17.78,
+                         "ltv_value": 800.0, "cac_ltv_ratio": 1.0,
+                         "recovery_grade": "危险(> 18 月,接近无限)",
+                         "action_hint": "稳态 17.78 月 + LTV/CAC 1.0 烧钱模式,建议:(1) 压 CAC 至 500 以下(2) 稳态月费提到 200+ (3) 流失率从 15% 压到 8% 以下"},
+             "note": "危险电商案例:CAC 800,首月 100(5折 50% off),稳态 150,毛利 30%,流失 15% → 稳态 17.78 月,危险;LTV 800 与 CAC 持平,烧钱无回报。"},
+        ],
+    ),
 ]
 
 
@@ -406,7 +529,7 @@ def build_index(specs: list[CalculatorSpec]) -> dict:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="把 10 个盈利计算器定义入库到 content/calculators/")
+    parser = argparse.ArgumentParser(description="把 15 个盈利计算器定义入库到 content/calculators/")
     parser.add_argument("--out", type=Path, default=Path("content/calculators"),
                         help="输出 JSON 目录(默认 content/calculators)")
     args = parser.parse_args()

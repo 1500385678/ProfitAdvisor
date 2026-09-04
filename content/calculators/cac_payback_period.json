@@ -1,0 +1,171 @@
+{
+  "id": "cac_payback_period",
+  "name": "CAC 回收期(精细化)",
+  "category": "单位经济",
+  "description": "在 ltv_cac 简化公式(cac / 单期毛利)基础上,把首单折扣期与稳态期拆开,分阶段计算 CAC 回收月数:(1) 折扣期内回收:首月折扣收入达到 cac 所需的月数(数字营销场景);(2) 稳态回收:扣除首月折扣后,用稳态月毛利累计回本所需的月数(SaaS/订阅主流);(3) 全 LTV 回收:用客户生命周期内累计毛利回本所需的月数(算上续费/升级)。同时输出 CAC / LTV 比(改良版 1/(LTV/CAC)),给营销 + 产品 + 财务三方各取所需的口径。",
+  "difficulty": 3,
+  "tags": [
+    "CAC",
+    "回收期",
+    "单位经济",
+    "SaaS",
+    "LTV",
+    "获客成本",
+    "基础+改良"
+  ],
+  "inputs": [
+    {
+      "name": "cac",
+      "label": "获客成本 CAC",
+      "type": "number",
+      "unit": "元",
+      "required": true,
+      "min": 0
+    },
+    {
+      "name": "first_month_revenue",
+      "label": "首月收入(扣首单折扣前)",
+      "type": "number",
+      "unit": "元",
+      "required": true,
+      "min": 0
+    },
+    {
+      "name": "first_month_discount",
+      "label": "首月折扣率",
+      "type": "number",
+      "unit": "%",
+      "default": 0,
+      "required": false,
+      "min": 0,
+      "max": 100
+    },
+    {
+      "name": "steady_monthly_revenue",
+      "label": "稳态月收入(首单折扣后)",
+      "type": "number",
+      "unit": "元",
+      "required": true,
+      "min": 0
+    },
+    {
+      "name": "gross_margin",
+      "label": "毛利率",
+      "type": "number",
+      "unit": "%",
+      "required": true,
+      "min": 0,
+      "max": 100
+    },
+    {
+      "name": "monthly_churn",
+      "label": "月流失率",
+      "type": "number",
+      "unit": "%",
+      "required": true,
+      "min": 0,
+      "max": 100
+    },
+    {
+      "name": "upgrade_rate",
+      "label": "月升级/增购率",
+      "type": "number",
+      "unit": "%",
+      "default": 0,
+      "required": false,
+      "min": 0,
+      "max": 100
+    }
+  ],
+  "outputs": [
+    {
+      "name": "first_period_payback",
+      "label": "首单期内回收月数",
+      "unit": "月"
+    },
+    {
+      "name": "steady_payback",
+      "label": "稳态回收月数",
+      "unit": "月"
+    },
+    {
+      "name": "total_payback",
+      "label": "全 LTV 累计回收月数",
+      "unit": "月"
+    },
+    {
+      "name": "ltv_value",
+      "label": "LTV 累计毛利贡献",
+      "unit": "元"
+    },
+    {
+      "name": "cac_ltv_ratio",
+      "label": "CAC / LTV 比",
+      "unit": "倍"
+    },
+    {
+      "name": "recovery_grade",
+      "label": "健康度评级",
+      "unit": "str"
+    },
+    {
+      "name": "action_hint",
+      "label": "运营动作建议",
+      "unit": "str"
+    }
+  ],
+  "formula": "effective_first_revenue = first_month_revenue * (1 - first_month_discount/100);first_period_payback = cac / effective_first_revenue;  # 折扣期内回本月数effective_monthly_margin = steady_monthly_revenue * gross_margin / 100;steady_payback = cac / effective_monthly_margin;  # 稳态毛利回本月数# LTV 累计:每月净留存(1 - 月流失 + 升级增购)下累计回本月数net_retention_rate = (1 - monthly_churn/100 + upgrade_rate/100);ltv_value = effective_monthly_margin / max(0.01, 1 - net_retention_rate);  # 永续近似total_payback ≈ cac / effective_monthly_margin  if 净留存 > 0 else ∞;cac_ltv_ratio = cac / ltv_value;recovery_grade 按 steady_payback 区间分级。Phase 1 由 calc_engine 实算。",
+  "interpretation": "稳态回收月数 ≤ 6 月:优秀(健康 SaaS 标志);6-12 月:良好(可接受);12-18 月:警告(现金流压力大);> 18 月:危险(烧钱模式,需重做获客或提价)。首单期内回收月数 > 1 月说明首单折扣力度不够,获客首日收入未覆盖 CAC;< 0.5 月说明首单折扣过度,可能在贴钱获客,需评估后续续费是否能补。全 LTV 累计回收月数 > 36 月说明 LTV > CAC,但回本周期过长,需关注净留存。CAC / LTV 比 < 0.33 算健康(对应 LTV/CAC > 3),0.33-0.5 可接受,> 0.5 危险。",
+  "knowledge_ids": [
+    "unit_economics__CAC",
+    "unit_economics__LTV",
+    "unit_economics__回收期",
+    "revenue_model__首单折扣",
+    "cash_flow__稳态"
+  ],
+  "cases": [],
+  "examples": [
+    {
+      "inputs": {
+        "cac": 1500,
+        "first_month_revenue": 200,
+        "first_month_discount": 0,
+        "steady_monthly_revenue": 400,
+        "gross_margin": 80,
+        "monthly_churn": 5,
+        "upgrade_rate": 0
+      },
+      "outputs": {
+        "first_period_payback": 7.5,
+        "steady_payback": 4.69,
+        "total_payback": 4.69,
+        "ltv_value": 6400.0,
+        "cac_ltv_ratio": 0.23,
+        "recovery_grade": "优秀(稳态 ≤ 6 月)",
+        "action_hint": "稳态 4.69 月 + LTV/CAC 4.27 优秀,可加大投放,首单 7.5 月回收说明首单折扣不足,建议小幅下调首月价或加首月引导"
+      },
+      "note": "健康 SaaS 案例:CAC 1500,首月 200(无折扣),稳态 400,毛利 80%,流失 5% → 稳态 4.69 月,优秀;LTV 6400,LTV/CAC 4.27 健康线之上。"
+    },
+    {
+      "inputs": {
+        "cac": 800,
+        "first_month_revenue": 100,
+        "first_month_discount": 50,
+        "steady_monthly_revenue": 150,
+        "gross_margin": 30,
+        "monthly_churn": 15,
+        "upgrade_rate": 0
+      },
+      "outputs": {
+        "first_period_payback": 16.0,
+        "steady_payback": 17.78,
+        "total_payback": 17.78,
+        "ltv_value": 800.0,
+        "cac_ltv_ratio": 1.0,
+        "recovery_grade": "危险(> 18 月,接近无限)",
+        "action_hint": "稳态 17.78 月 + LTV/CAC 1.0 烧钱模式,建议:(1) 压 CAC 至 500 以下(2) 稳态月费提到 200+ (3) 流失率从 15% 压到 8% 以下"
+      },
+      "note": "危险电商案例:CAC 800,首月 100(5折 50% off),稳态 150,毛利 30%,流失 15% → 稳态 17.78 月,危险;LTV 800 与 CAC 持平,烧钱无回报。"
+    }
+  ]
+}

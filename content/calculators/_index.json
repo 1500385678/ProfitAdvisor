@@ -1,13 +1,13 @@
 {
   "schema_version": "0.1.0",
-  "generated_at": "2026-09-04T03:40:01",
-  "total": 14,
+  "generated_at": "2026-09-05T03:42:39",
+  "total": 15,
   "by_category": {
     "利润": 3,
     "现金流": 2,
     "定价": 2,
     "投资": 4,
-    "单位经济": 1,
+    "单位经济": 2,
     "增长": 2
   },
   "calculators": [
@@ -94,6 +94,12 @@
       "name": "复利增长模型 / CAGR",
       "category": "增长",
       "difficulty": 2
+    },
+    {
+      "id": "cac_payback_period",
+      "name": "CAC 回收期(精细化)",
+      "category": "单位经济",
+      "difficulty": 3
     }
   ]
 }
