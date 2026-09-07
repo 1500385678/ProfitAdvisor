@@ -1,11 +1,11 @@
 {
   "schema_version": "0.1.0",
-  "generated_at": "2026-09-05T03:42:39",
-  "total": 15,
+  "generated_at": "2026-09-08T03:42:51",
+  "total": 16,
   "by_category": {
     "利润": 3,
     "现金流": 2,
-    "定价": 2,
+    "定价": 3,
     "投资": 4,
     "单位经济": 2,
     "增长": 2
@@ -50,6 +50,12 @@
     {
       "id": "value_based_pricing",
       "name": "价值定价锚点",
+      "category": "定价",
+      "difficulty": 4
+    },
+    {
+      "id": "dynamic_pricing",
+      "name": "动态定价模拟器",
       "category": "定价",
       "difficulty": 4
     },

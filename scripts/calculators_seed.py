@@ -236,6 +236,70 @@ SEED_CALCULATORS: list[CalculatorSpec] = [
         interpretation="价值捕获率 10-30% 是 B2B SaaS 行业常见区间;低于 10% 说明价值未被认可。",
         knowledge_ids=["pricing_strategy__价值定价"],
     ),
+    # ===== 定价类 续 (15→16 · 2026-09-08 T1 续6) · 动态定价(基础+改良双轨深化) =====
+    # 与 cost_plus_pricing(成本加成) / value_based_pricing(价值定价) 形成定价类「基础+改良」双轨深化:
+    #   基础 cost_plus_pricing (difficulty 1):单位成本×(1+加成率)——最简单,制造业/零售
+    #   基础 value_based_pricing (difficulty 4):客户感知价值×价值捕获率——B2B/SaaS
+    #   改良 dynamic_pricing (difficulty 4):基础价×(1±调整幅度)+ 需求价格弹性推算 ΔQ——网约车/外卖/酒店分时定价
+    # 改良版核心差异:引入「时段(高峰/低谷)」与「需求价格弹性」两个动态变量,模拟分时定价对收入的影响;
+    # 不再是「算一个静态锚点价」而是「算两个时段价 + 各时段收入变化 + 混合收入变化(50/50 分布)」,覆盖 0903 巡检建议中
+    # 「② 定价改良」的工程化落地(继 0905 ① 单位经济改良 cac_payback_period 之后,完成「② 定价改良」)。
+    CalculatorSpec(
+        id="dynamic_pricing",
+        name="动态定价模拟器",
+        category="定价",
+        difficulty=4,
+        description="基于「高峰涨价 + 低谷折扣 + 需求价格弹性」三因素模拟动态定价对收入的影响。"
+                   "基础价 × (1±调整幅度) 算时段价,再用需求价格弹性推算各时段需求变化%"
+                   "(ΔQ ≈ elasticity × ΔP),最终算出各时段收入变化与假设 50/50 时段分布的混合收入变化。"
+                   "与 cost_plus_pricing(基础成本加成) / value_based_pricing(基础价值定价) 形成定价类「基础+改良」双轨深化,"
+                   "适合网约车/外卖/酒店/SaaS 分时定价、共享经济峰值加价、餐饮分时段套餐等动态定价场景。",
+        tags=["动态定价", "需求弹性", "高峰加价", "低谷折扣", "时段定价"],
+        inputs=[
+            {"name": "base_price",        "label": "基础价格(标准时段)",     "type": "number", "unit": "元", "required": True, "min": 0},
+            {"name": "peak_uplift",       "label": "高峰涨价幅度",           "type": "number", "unit": "%",  "default": 20, "required": True, "min": 0, "max": 100},
+            {"name": "off_peak_discount", "label": "低谷折扣幅度",           "type": "number", "unit": "%",  "default": 15, "required": True, "min": 0, "max": 100},
+            {"name": "elasticity",        "label": "需求价格弹性(负值,绝对值越大越敏感)", "type": "number", "unit": "",  "default": -1.5, "required": True, "min": -10, "max": 0},
+        ],
+        outputs=[
+            {"name": "peak_price",              "label": "高峰时段价",          "unit": "元"},
+            {"name": "off_peak_price",          "label": "低谷时段价",          "unit": "元"},
+            {"name": "peak_revenue_change",     "label": "高峰收入变化",        "unit": "%"},
+            {"name": "off_peak_revenue_change", "label": "低谷收入变化",        "unit": "%"},
+            {"name": "blended_revenue_change",  "label": "混合收入变化(50/50 时段分布)", "unit": "%"},
+        ],
+        formula="peak_price = base_price × (1 + peak_uplift / 100);"
+                "off_peak_price = base_price × (1 - off_peak_discount / 100);"
+                "peak_demand_change% = elasticity × peak_uplift / 100;"
+                "off_peak_demand_change% = elasticity × (-off_peak_discount / 100);"
+                "peak_revenue_change = (1 + peak_uplift / 100) × (1 + peak_demand_change / 100) - 1;"
+                "off_peak_revenue_change = (1 - off_peak_discount / 100) × (1 + off_peak_demand_change / 100) - 1;"
+                "blended_revenue_change = 0.5 × peak_revenue_change + 0.5 × off_peak_revenue_change;"
+                "Phase 1 由 calc_engine 实算",
+        interpretation="|elasticity| < 1(低弹性,如医疗/SaaS/必需消费) → 涨价能放大收入,适合加大 peak_uplift;"
+                       "|elasticity| ≈ 1(中性,如餐饮/中端零售) → 涨价基本被需求下降抵消,peak_uplift 控制在 5-10%;"
+                       "|elasticity| > 1(高弹性,如奢侈品/可推迟消费) → 涨价反而赔,建议 peak_uplift 设为 0 或保留基础价;"
+                       "低谷折扣(off_peak_discount)对收入的影响同样受弹性约束,|elasticity| 越大折扣引流效果越强但单价损失越大;"
+                       "若 blended_revenue_change 为负,说明动态定价策略整体不划算,需调整 peak_uplift / off_peak_discount 比例或重新评估时段分布(非 50/50)。",
+        knowledge_ids=["pricing_strategy__动态定价", "pricing_strategy__需求弹性", "revenue_model__价格敏感度"],
+        examples=[
+            {"inputs": {"base_price": 100, "peak_uplift": 30, "off_peak_discount": 20, "elasticity": -1.5},
+             "outputs": {"peak_price": 130, "off_peak_price": 80,
+                         "peak_revenue_change": -28.5, "off_peak_revenue_change": 4.0,
+                         "blended_revenue_change": -12.25},
+             "note": "餐饮高弹性场景(|elasticity|=1.5):基础 100 元,高峰涨 30%→130 元(需求腰斩 -45%),低谷打 8 折→80 元(需求增 30%);"
+                     "高峰收入反降 28.5%(涨价 30% 但需求降 45% 的乘数效应),低谷收入微增 4.0%(降价 20% 带来 30% 需求增长);"
+                     "50/50 分布下整体收入降 12.25%,说明 30% 高峰涨价过激,建议压到 10-15%(基础 100 元 → 高峰 110-115 元区间),既保留分时定价信号又不流失客户。"},
+            {"inputs": {"base_price": 99, "peak_uplift": 20, "off_peak_discount": 30, "elasticity": -0.4},
+             "outputs": {"peak_price": 118.8, "off_peak_price": 69.3,
+                         "peak_revenue_change": 10.4, "off_peak_revenue_change": -21.6,
+                         "blended_revenue_change": -5.6},
+             "note": "SaaS 低弹性场景(|elasticity|=0.4,客户对价格不敏感):基础 99 元,高峰涨 20%→118.8 元(需求仅降 8% → 收入增 10.4%),"
+                     "低谷打 7 折→69.3 元(需求增 12% → 收入仍降 21.6%,折扣过深);"
+                     "50/50 分布下整体收入降 5.6%,低谷折扣挖得太狠,建议收窄到 15-20%(99→79-84 元);"
+                     "SaaS 分时定价核心是「保留基础价信号 + 高峰期适度加价」,不应靠深折扣换增长(低弹性场景下折扣成本 > 需求增长收益)。"},
+        ],
+    ),
     # ===== 投资类 =====
     CalculatorSpec(
         id="roi",
