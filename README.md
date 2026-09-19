@@ -43,12 +43,14 @@
 | `scripts/validate_calculators.py` | 7 项静态校验(calculators 域) | 2026-09-06 |
 | `scripts/validate_cases.py` | 7 项静态校验(cases 域) | 2026-09-09 |
 | `scripts/validate_knowledge.py` | 7 项静态校验(knowledge 域) | 2026-09-10 |
+| `scripts/double_push.sh` | 工程师卫生:gitee + github 双 push 一键执行 + rev-list 实时验证 | 2026-09-19 |
 
 ## 双 push 远端
 
 - **Gitee**:`gitee.com/architectzy/ProfitAdvisor` (主备份,落后 0 闭合基线)
 - **GitHub**:`github.com/1500385678/ProfitAdvisor` (公开,落后 0 闭合基线)
 - **硬约束**:工作日 T1/T2/T4 commit 后立即双 push,任何巡检周期 github 落后 >0 立即报警
+- **建议执行方式**:`bash scripts/double_push.sh`(自动跑 gitee + github 双 push + rev-list 0/0 闭合校验,GitHub 失败不阻塞)
 
 ## 巡检日志
 
@@ -69,4 +71,4 @@ python3 scripts/validate_knowledge.py
 
 ---
 
-**主计划**:`盈利顾问开发架构与计划.md` · **最新巡检**:`.Log/巡检-盈利-20260918.md` · **9/13 补录**:`.Log/巡检-盈利-20260913.md` · **维护**:张勇
+**主计划**:`盈利顾问开发架构与计划.md` · **最新巡检**:`.Log/巡检-盈利-20260920.md` · **9/13 补录**:`.Log/巡检-盈利-20260913.md` · **维护**:张勇
